@@ -15,8 +15,8 @@ def get_o_level_scripts():
 
 @app.route("/o-level/add-file", methods=["POST"])
 def post_o_level_scripts():
-    file = open("o-level.json", "a")
-    data: list = json.load(file)
+    file = open("o-level.json", "+w")
+    data = json.load(file)
     new_data = data.append(request.get_json())
     json.dump(new_data, file)
     file.close()
@@ -59,6 +59,5 @@ def post_a_level_scripts():
     return "", 204
 
 
-# driver function
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run("127.0.0.1", 5000, debug=True)
