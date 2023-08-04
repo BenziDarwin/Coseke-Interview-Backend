@@ -109,7 +109,7 @@ def get_a_level_scripts():
 def post_a_level_scripts():
     try:
         new_data = request.get_json()
-        result = olevelSchema().load(new_data)
+        result = alevelSchema().load(new_data)
         with open("a-level.json", "r+") as file:
             data = json.load(file)
 
@@ -156,7 +156,7 @@ def delete_a_level_scripts():
 def update_a_level_scripts():
     try:
         new_data = request.get_json()
-        update_data = olevelSchema().load(new_data)
+        update_data = alevelSchema().load(new_data)
         with open("a-level.json", "r+") as file:
             data = json.load(file)
             if "random_code" not in update_data:
