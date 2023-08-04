@@ -27,7 +27,14 @@ def post_o_level_scripts():
         result = olevelSchema().load(new_data)
         with open("o-level.json", "r+") as file:
             data = json.load(file)
-
+            check = list(
+                filter(lambda x: x["random_code"] == result["random_code"], data)
+            )
+            if len(check) > 0:
+                return (
+                    f"File with random code {result['random_code']} already exists.",
+                    403,
+                )
             data.append(result)
             file.seek(0)
             json.dump(data, file)
@@ -53,6 +60,8 @@ def update_o_level_scripts():
                 return "Invalid body!", 403
             updated = False
             for val in data:
+                if updated == True:
+                    break
                 if val["random_code"] == update_data["random_code"]:
                     val.update(update_data)
                     updated = True
@@ -105,6 +114,7 @@ def get_a_level_scripts():
         return jsonify(data)
 
 
+# Route to add a file
 @app.route("/a-level/add-file", methods=["POST"])
 def post_a_level_scripts():
     try:
@@ -112,7 +122,14 @@ def post_a_level_scripts():
         result = alevelSchema().load(new_data)
         with open("a-level.json", "r+") as file:
             data = json.load(file)
-
+            check = list(
+                filter(lambda x: x["random_code"] == result["random_code"], data)
+            )
+            if len(check) > 0:
+                return (
+                    f"File with random code {result['random_code']} already exists.",
+                    403,
+                )
             data.append(result)
             file.seek(0)
             json.dump(data, file)
@@ -126,6 +143,7 @@ def post_a_level_scripts():
         return f"Error occurred while adding data: {e}", 500
 
 
+# Route to delete a file
 @app.route("/a-level/delete", methods=["DELETE"])
 def delete_a_level_scripts():
     try:
@@ -163,6 +181,8 @@ def update_a_level_scripts():
                 return "Invalid body!", 403
             updated = False
             for val in data:
+                if updated == True:
+                    break
                 if val["random_code"] == update_data["random_code"]:
                     val.update(update_data)
                     updated = True
